@@ -91,8 +91,13 @@ export class SeedCommand implements yargs.CommandModule {
     for (const seedFileObject of seedFileObjects) {
       spinner.start(`Executing ${seedFileObject.name} Seeder`)
       try {
-        await runSeeder(seedFileObject)
-        spinner.succeed(`Seeder ${seedFileObject.name} executed`)
+        const callableResult = await runSeeder(seedFileObject)
+        if (callableResult) {
+          spinner.clear()
+          callableResult(seedFileObject)
+        } else {
+          spinner.succeed(`Seeder ${seedFileObject.name} executed`)
+        }
       } catch (error) {
         panic(spinner, error, `Could not run the seed ${seedFileObject.name}!`)
       }

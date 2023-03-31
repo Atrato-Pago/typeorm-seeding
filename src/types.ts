@@ -24,7 +24,7 @@ export type Factory = <Entity, Context>(
  * Seed are the class to create some data. Those seed are run by the cli.
  */
 export interface Seeder {
-  run(factory: Factory, connection: Connection): Promise<void>
+  run(factory: Factory, connection: Connection): Promise<CallableFunction | void | undefined>
 }
 
 /**
